@@ -56,6 +56,7 @@ private:
     bool started;
     void setValueForColor(ColorRange::RangeIndex index, int value);
     void preLoadScrollBars(ColorRange range);
+    void createMusicChips();
 };
 
 #endif // VIDEOPLAYER_H

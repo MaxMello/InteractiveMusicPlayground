@@ -22,12 +22,28 @@ VideoPlayer::~VideoPlayer() {
 }
 
 void VideoPlayer::on_openVideoFileButton_clicked() {
+    //Connect the imageprocessor with soundControl
+    QObject::connect(static_cast<ImageProcessor *>(videoThread->getVideoProcessor()),
+                     SIGNAL(declareEffectPositions(Point,Point,Point,Point)),
+                     soundControl,
+                     SLOT(setEffects(Point, Point, Point, Point)));
+    createMusicChips();
     // Kamera
     if(!started){
         started = true;
         videoThread->openCamera();
         videoThread->start();
     }
+}
+
+//Music Chip creation
+void VideoPlayer::createMusicChips(){
+    ImageProcessor * processor = static_cast<ImageProcessor *>(videoThread->getVideoProcessor());
+    processor->addMusicChip(new MusicChip(Shapes::SQUARE,ColorRange::RED, processor->getPath() + "120bass.mp3"), soundControl);
+    processor->addMusicChip(new MusicChip(Shapes::SQUARE,ColorRange::YELLOW, processor->getPath() + "120guitar.mp3"), soundControl);
+    processor->addMusicChip(new MusicChip(Shapes::SQUARE,ColorRange::GREEN, processor->getPath() + "120guitar2.mp3"), soundControl);
+    processor->addMusicChip(new MusicChip(Shapes::SQUARE,ColorRange::BLUE, processor->getPath() + "115drum.mp3"), soundControl);
+    processor->addMusicChip(new MusicChip(Shapes::SQUARE,ColorRange::PURPLE, processor->getPath() + "115drumsynth.mp3"), soundControl);
 }
 
 void VideoPlayer::on_colorComboBox_currentIndexChanged(const QString &color) {

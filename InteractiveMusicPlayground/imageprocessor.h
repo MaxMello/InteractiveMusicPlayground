@@ -24,6 +24,7 @@ public:
     ~ImageProcessor();
     void startProcessing(const VideoFormat& format);
     Mat process(const Mat&source);
+    void addMusicChip(MusicChip* chip, SoundControl* soundControl);
     //Setter
     void setMedianBlurValue(int value);
     void setOpenValue(int value);

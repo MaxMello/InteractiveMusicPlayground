@@ -8,33 +8,6 @@ ImageProcessor::ImageProcessor(SoundControl *soundControl, QObject *parent)
     , element(getStructuringElement(MORPH_CROSS,Size(5,5)))
 {
     path = "C:/Users/Besitzer/Programming/cpp/AVPRG/InteractiveMusicPlayground/InteractiveMusicPlayground/resources/audio/";
-
-    //Create the musicChips
-    MusicChip* redSquare = new MusicChip(Shapes::SQUARE,ColorRange::RED, path + "120bass.mp3");
-    MusicChip* yellowSquare = new MusicChip(Shapes::SQUARE,ColorRange::YELLOW, path + "120guitar.mp3");
-    MusicChip* greenSquare = new MusicChip(Shapes::SQUARE,ColorRange::GREEN, path + "120guitar2.mp3");
-    MusicChip* blueSquare = new MusicChip(Shapes::SQUARE,ColorRange::BLUE, path + "115drum.mp3");
-    MusicChip* purpleSquare = new MusicChip(Shapes::SQUARE,ColorRange::PURPLE, path + "115drumsynth.mp3");
-
-    //Put them into a vector
-    musicChips.reserve(5);
-
-    musicChips.push_back(greenSquare);
-    musicChips.push_back(blueSquare);
-    musicChips.push_back(purpleSquare);
-    musicChips.push_back(redSquare);
-    musicChips.push_back(yellowSquare);
-
-    //Connect the SIGNALS and SLOTS
-    //ImageProcessor
-    QObject::connect(this, SIGNAL(declareEffectPositions(Point,Point,Point,Point)),soundControl, SLOT(setEffects(Point, Point, Point, Point)));
-    //MusicChips
-    for (uint i = 0; i < musicChips.size(); i++){
-        QObject::connect(musicChips[i], SIGNAL(on(Point)), soundControl, SLOT(play(Point)));
-        QObject::connect(musicChips[i], SIGNAL(off()), soundControl, SLOT(stop()));
-        QObject::connect(musicChips[i], SIGNAL(positionChanged(Point)), soundControl, SLOT(applyEffects(Point)));
-        QObject::connect(musicChips[i], SIGNAL(passTrack()), soundControl, SLOT(setTrack()));
-    }
 }
 
 ImageProcessor::~ImageProcessor(){
@@ -43,6 +16,14 @@ ImageProcessor::~ImageProcessor(){
     }
 }
 
+void ImageProcessor::addMusicChip(MusicChip* chip, SoundControl* soundControl){
+    musicChips.reserve(1);
+    musicChips.push_back(chip);
+    QObject::connect(chip, SIGNAL(on(Point)), soundControl, SLOT(play(Point)));
+    QObject::connect(chip, SIGNAL(off()), soundControl, SLOT(stop()));
+    QObject::connect(chip, SIGNAL(positionChanged(Point)), soundControl, SLOT(applyEffects(Point)));
+    QObject::connect(chip, SIGNAL(passTrack()), soundControl, SLOT(setTrack()));
+}
 
 //This function contains setup work that only need to be done once at the start
 void ImageProcessor::startProcessing(const VideoFormat& format){
