@@ -120,7 +120,7 @@ void EffectProcessor::setState(State state){
         //Else, use the current gain value
         gain = max(gain,minGain);
     } else if (state == FADEOUT){
-        gainChange = 0.95f;
+        gainChange = 0.8f;
     } else if (state == ON){
         gain = 1;
         gainChange = 1;

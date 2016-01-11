@@ -85,7 +85,6 @@ Mat ImageProcessor::maskColor(const Mat &input, MusicChip *musicChip){
     if(medianBlurValue > 0){
          medianBlur(input,input,medianBlurValue);
     }
-
     //Color-Range-Check: Workaround to have colorranges from 170 -> 0 -> 15 (RED)
     Mat output(input.rows, input.cols, CV_8UC1);
     Scalar min = musicChip->getRange().min;
@@ -98,7 +97,6 @@ Mat ImageProcessor::maskColor(const Mat &input, MusicChip *musicChip){
     } else {
         inRange(input, musicChip->getRange().min, musicChip->getRange().max, output);
     }
-
     return output;
 }
 
@@ -108,30 +106,35 @@ Mat ImageProcessor::maskColor(const Mat &input, MusicChip *musicChip){
 //Returns a filled white shape on a black matrix if the shape is found
 //stops after finding the first shape
 Mat ImageProcessor::maskShape(const Mat input, MusicChip* musicChip, Point &outputCenter){
+    Mat input2 = input.clone();
     Mat output = Mat::zeros(input.size(), CV_8UC1);
     vector<vector<Point>> contours;
     uint contour = musicChip->getContour();
 
     if(openValue > 0){
-         morphologyEx(input, input, MORPH_OPEN, element, Point(-1,-1), openValue);
+         morphologyEx(input2, input2, MORPH_OPEN, element, Point(-1,-1), openValue);
     }
     if(closeValue > 0){
-        morphologyEx(input, input, MORPH_CLOSE, element, Point(-1,-1), closeValue);
+        morphologyEx(input2, input2, MORPH_CLOSE, element, Point(-1,-1), closeValue);
     }
 
-    findContours(input, contours, RETR_LIST, CV_CHAIN_APPROX_TC89_KCOS);
+    findContours(input2, contours, RETR_LIST, CV_CHAIN_APPROX_NONE);
 
+    //For each contour found
     for(uint i = 0; i < contours.size(); i++){
-        vector<Point> approx;
-        //Approximation-Algorithm to detect geometric shapes
-        approxPolyDP(contours[i], approx, 0.01*arcLength(contours[i], true), true);
-
-        if(contourArea(contours[i]) >= minChipSize && approx.size() == contour){
-            //Calculate center of Mass
-            outputCenter = centerOfMass(contours[i]);
-            //Draw the output image
-            drawContours(output,contours,i,Scalar(255,255,255),CV_FILLED,8,noArray());
-            break;
+        //If the contour is big enough
+        if(contourArea(contours[i]) >= minChipSize){
+            vector<Point> approx;
+            //Approximation-Algorithm to detect geometric shapes
+            approxPolyDP(contours[i], approx, 0.01*arcLength(contours[i], true), true);
+            //If the found contours are equal to the contour of the musicchip
+            if(approx.size() == contour || approx.size() == contour+1 || approx.size() == contour+2){
+                //Calculate center of Mass
+                outputCenter = centerOfMass(contours[i]);
+                //Draw the output image
+                drawContours(output,contours,i,Scalar(255,255,255),CV_FILLED,8,noArray());
+                break;
+            }
         }
     }
     return output;

@@ -268,6 +268,13 @@ int AudioDecoderMediaFoundation::read(int size, const SAMPLE *destination)
                      << "dwflags: " << dwFlags
 					 << std::endl;
         }
+        //Code-Modification @author max wiechmann
+        //After 4 seconds start again
+        /*if(m_iCurrentPosition >= 352800){
+            //std::cout << "File: " << "" << m_iCurrentPosition << std::endl;
+            seek(0);
+            break;
+        }*/
 
         if (dwFlags & MF_SOURCE_READERF_ERROR) {
             // our source reader is now dead, according to the docs
@@ -278,7 +285,7 @@ int AudioDecoderMediaFoundation::read(int size, const SAMPLE *destination)
             //Code-Modification @author max wiechmann
             //If end of file, start from beginning
             this->seek(0);
-            //std::cout << "SSMF: End of input file." << std::endl;
+           // std::cout << "SSMF: End of input file." << std::endl;
             break;
         } else if (dwFlags & MF_SOURCE_READERF_CURRENTMEDIATYPECHANGED) {
             std::cerr << "SSMF: Type change";
@@ -307,7 +314,6 @@ int AudioDecoderMediaFoundation::read(int size, const SAMPLE *destination)
             goto releaseMBuffer;
         }
         bufferLength /= (m_iBitsPerSample / 8 * m_iChannels); // now in frames
-
         if (m_seeking) {
             __int64 bufferPosition(frameFromMF(timestamp));
             if (sDebug) {
@@ -344,8 +350,8 @@ int AudioDecoderMediaFoundation::read(int size, const SAMPLE *destination)
                     // try to get on with our lives.
                     m_seeking = false;
                     m_nextFrame = bufferPosition;
-                    std::cerr << __FILE__ << __LINE__
-                               << "Seek offshoot is too drastic. Cutting losses and pretending the current decoded audio buffer is the right seek point.";
+                    //std::cerr << __FILE__ << __LINE__
+                    //          << "Seek offshoot is too drastic. Cutting losses and pretending the current decoded audio buffer is the right seek point.";
                 }
             }
 
