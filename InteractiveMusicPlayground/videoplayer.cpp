@@ -39,11 +39,11 @@ void VideoPlayer::on_openVideoFileButton_clicked() {
 //Music Chip creation
 void VideoPlayer::createMusicChips(){
     ImageProcessor * processor = static_cast<ImageProcessor *>(videoThread->getVideoProcessor());
-    processor->addMusicChip(new MusicChip(Shapes::TRIANGLE,ColorRange::RED, processor->getPath() + "piano30min.mp3"), soundControl);
-    processor->addMusicChip(new MusicChip(Shapes::TRIANGLE,ColorRange::YELLOW, processor->getPath() + "guitar30min.mp3"), soundControl);
-    processor->addMusicChip(new MusicChip(Shapes::SQUARE,ColorRange::GREEN, processor->getPath() + "beat130min.mp3"), soundControl);
-    processor->addMusicChip(new MusicChip(Shapes::PENTAGON,ColorRange::BLUE, processor->getPath() + "beat230min.mp3"), soundControl);
-    processor->addMusicChip(new MusicChip(Shapes::SQUARE,ColorRange::PURPLE, processor->getPath() + "doublesnare30min.mp3"), soundControl);
+    processor->addMusicChip(new MusicChip(Shapes::TRIANGLE,ColorRange::RED, processor->getPath() + "pianoLOOP.mp3"), soundControl);
+    processor->addMusicChip(new MusicChip(Shapes::TRIANGLE,ColorRange::YELLOW, processor->getPath() + "guitarLOOP.mp3"), soundControl);
+    processor->addMusicChip(new MusicChip(Shapes::SQUARE,ColorRange::GREEN, processor->getPath() + "beat3LOOP.mp3"), soundControl);
+    processor->addMusicChip(new MusicChip(Shapes::PENTAGON,ColorRange::BLUE, processor->getPath() + "60beatLOOP.mp3"), soundControl);
+    processor->addMusicChip(new MusicChip(Shapes::SQUARE,ColorRange::PURPLE, processor->getPath() + "doublesnareLOOP.mp3"), soundControl);
 }
 
 void VideoPlayer::on_colorComboBox_currentIndexChanged(const QString &color) {
