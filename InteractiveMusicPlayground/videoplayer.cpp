@@ -43,7 +43,7 @@ void VideoPlayer::createMusicChips(){
     processor->addMusicChip(new MusicChip(Shapes::TRIANGLE,ColorRange::YELLOW, processor->getPath() + "guitarLOOP.mp3"), soundControl);
     processor->addMusicChip(new MusicChip(Shapes::SQUARE,ColorRange::GREEN, processor->getPath() + "beat3LOOP.mp3"), soundControl);
     processor->addMusicChip(new MusicChip(Shapes::PENTAGON,ColorRange::BLUE, processor->getPath() + "60beatLOOP.mp3"), soundControl);
-    processor->addMusicChip(new MusicChip(Shapes::SQUARE,ColorRange::PURPLE, processor->getPath() + "doublesnareLOOP.mp3"), soundControl);
+    //processor->addMusicChip(new MusicChip(Shapes::SQUARE,ColorRange::PURPLE, processor->getPath() + "doublesnareLOOP.mp3"), soundControl);
 }
 
 void VideoPlayer::on_colorComboBox_currentIndexChanged(const QString &color) {

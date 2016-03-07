@@ -2,9 +2,9 @@
 
 ColorRange ColorRange::RED = ColorRange(Scalar(170,120,50), Scalar(10,255,255), "RED");
 ColorRange ColorRange::YELLOW = ColorRange(Scalar(15,100,170), Scalar(30,170,255), "YELLOW");
-ColorRange ColorRange::GREEN = ColorRange(Scalar(60,30,40), Scalar(90,150,200), "GREEN");
+ColorRange ColorRange::GREEN = ColorRange(Scalar(45,30,40), Scalar(75,150,200), "GREEN");
 ColorRange ColorRange::BLUE = ColorRange(Scalar(100,20,20), Scalar(115,150,200), "BLUE");
-ColorRange ColorRange::PURPLE = ColorRange(Scalar(120,15,30), Scalar(140,200,200), "PURPLE");
+ColorRange ColorRange::PURPLE = ColorRange(Scalar(120,0,30), Scalar(140,60,200), "PURPLE");
 
 ColorRange::ColorRange(Scalar min, Scalar max, QString name){
     this->min = min;
